@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>SmartHire – Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #09090b;
+            --surface: #111113;
+            --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.5);
+            --green: #34d399;
+            --text: #ffffff;
+            --muted: #71717a;
+            --border: rgba(255, 255, 255, 0.07);
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* ---- Scan line animation ---- */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--green), transparent);
+            animation: scanDown 6s ease-in-out infinite;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        @keyframes scanDown {
+            0% {
+                top: 0%;
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 0.6;
+            }
+
+            95% {
+                opacity: 0.6;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* ---- Background ---- */
+        .bg {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
+        }
+
+        /* ---- Center layout ---- */
+        .page {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* ---- Top bar ---- */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            border-bottom: 1px solid var(--border);
+            background: rgba(9, 9, 11, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 20;
+            animation: fadeDown 0.5s ease both;
+        }
+
+        .top-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .top-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-logo-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: #fff;
+            color: #fff;
+        }
+
+        .top-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .top-badge {
+            font-size: 0.7rem;
+            background: rgba(52, 211, 153, 0.1);
+            color: var(--green);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        /* ---- Counter ---- */
+        .counter-wrap {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeUp 0.5s 0.1s ease both;
+        }
+
+        .counter-num {
+            color: var(--accent-hover, #3b82f6);
+            font-size: 0.75rem;
+        }
+
+        /* ---- Headline ---- */
+        .headline {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.0;
+            letter-spacing: -0.05em;
+            color: #fff;
+            margin-bottom: 1rem;
+            animation: fadeUp 0.6s 0.15s ease both;
+        }
+
+        .line2 {
+            display: block;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.25);
+        }
+
+        .line3 {
+            display: block;
+            background: linear-gradient(90deg, var(--accent-hover, #3b82f6) 0%, var(--green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ---- Subtitle ---- */
+        .subtitle {
+            font-size: 1rem;
+            color: var(--muted);
+            max-width: 480px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            animation: fadeUp 0.6s 0.22s ease both;
+        }
+
+        /* ---- Pills row ---- */
+        .pills {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            animation: fadeUp 0.6s 0.28s ease both;
+        }
+
+        .pill {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #a1a1aa;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.35rem 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .pill-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+        }
+
+        .pill-dot.blue {
+            background: #60a5fa;
+        }
+
+        .pill-dot.green {
+            background: var(--green);
+        }
+
+        .pill-dot.red {
+            background: #f87171;
+        }
+
+        /* ---- CTA ---- */
+        .cta-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeUp 0.6s 0.35s ease both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #fff;
+            color: var(--bg);
+            border: none;
+            border-radius: 10px;
+            padding: 0.85rem 2rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.22s;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 28px rgba(255, 255, 255, 0.22);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.99);
+        }
+
+        /* ---- Progress line ---- */
+        .progress-line {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--green));
+            width: 0%;
+            z-index: 20;
+            animation: progressFill 2s 0.5s ease-out forwards;
+        }
+
+        @keyframes progressFill {
+            to {
+                width: 33.33%;
+            }
+        }
+
+        /* ---- Bottom bar ---- */
+        .bottom-bar {
+            position: fixed;
+            bottom: 12px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.72rem;
+            color: #3f3f46;
+            animation: fadeUp 0.5s 0.5s ease both;
+        }
+
+        .bottom-bar strong {
+            color: #52525b;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scan-line"></div>
+    <div class="bg"></div>
+    <div class="progress-line"></div>
+
+    <!-- Top bar -->
+    <div class="top-bar">
+        <div class="top-logo">
+            <div class="top-logo-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                        d="M14 2H6C5.47 2 4.96 2.21 4.59 2.59C4.21 2.96 4 3.47 4 4V20C4 20.53 4.21 21.04 4.59 21.41C4.96 21.79 5.47 22 6 22H18C18.53 22 19.04 21.79 19.41 21.41C19.79 21.04 20 20.53 20 20V8L14 2Z"
+                        stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M14 2V8H20" stroke="#fff" stroke-width="1.8" stroke-linecap="round" />
+                    <path d="M9 12L11 14L15 10" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="top-brand">SmartHire</span>
+        </div>
+        <span class="top-badge">✦ AI Recruitment</span>
+    </div>
+
+    <!-- Main content -->
+    <div class="page">
+        <div class="counter-wrap">
+            Step <span class="counter-num">0</span> of 3
+        </div>
+
+        <h1 class="headline">
+            Resume<br>
+            <span class="line2">Screening</span><br>
+            <span class="line3">Reimagined.</span>
+        </h1>
+
+        <p class="subtitle">
+            SmartHire uses AI to screen, score, and rank every candidate — saving you hours and surfacing the best
+            talent instantly.
+        </p>
+
+        <div class="pills">
+            <span class="pill"><span class="pill-dot blue"></span>AI Match Scoring</span>
+            <span class="pill"><span class="pill-dot green"></span>Bias-Free Screening</span>
+            <span class="pill"><span class="pill-dot red"></span>Skill Gap Analysis</span>
+            <span class="pill"><span class="pill-dot blue"></span>CSV / Report Export</span>
+        </div>
+
+        <div class="cta-group">
+            <button class="btn-primary" onclick="window.location.href='/'">
+                Begin Screening
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <strong>Powered by Gemini AI</strong> &nbsp;·&nbsp; Free &nbsp;·&nbsp; No account required
+    </div>
+</body>
+
+</html>

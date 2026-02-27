@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>SmartHire – AI Resume Screening</title>
+  <meta name="description" content="AI-powered resume screening for faster, fairer hiring." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+
+  <!-- Global App Shell -->
+  <div id="app-shell">
+
+    <!-- Persistent Top Nav -->
+    <header class="app-header">
+      <div class="app-header-left">
+        <div class="logo-container">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M14 2V8H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M17 5L17.5 6.5L19 7L17.5 7.5L17 9L16.5 7.5L15 7L16.5 6.5L17 5Z" fill="currentColor" />
+          </svg>
+        </div>
+        <span class="app-brand-name">SmartHire</span>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="step-indicator" id="step-indicator">
+        <div class="step-item active" id="step-1-indicator">
+          <div class="step-circle">
+            <span class="step-number">1</span>
+            <svg class="step-check" viewBox="0 0 24 24" fill="none">
+              <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="step-label">Job Description</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item" id="step-2-indicator">
+          <div class="step-circle">
+            <span class="step-number">2</span>
+            <svg class="step-check" viewBox="0 0 24 24" fill="none">
+              <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="step-label">Candidates</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item" id="step-3-indicator">
+          <div class="step-circle">
+            <span class="step-number">3</span>
+            <svg class="step-check" viewBox="0 0 24 24" fill="none">
+              <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="step-label">Results</span>
+        </div>
+      </div>
+
+      <div class="app-header-right">
+        <button id="settings-toggle" class="icon-btn" title="Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.07 4.93A10 10 0 1 0 4.93 19.07 10 10 0 0 0 19.07 4.93z" stroke-dasharray="none" />
+            <path
+              d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"
+              stroke-width="1.5" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Screens Viewport -->
+    <div class="screens-viewport" id="screens-viewport">
+
+      <!-- ===== SCREEN 1: JOB DESCRIPTION ===== -->
+      <div class="screen screen-active" id="screen-1">
+        <div class="screen-container">
+          <div class="screen-hero">
+            <div class="screen-badge">Step 1 of 3</div>
+            <h1 class="screen-title">What role are you hiring for?</h1>
+            <p class="screen-subtitle">Paste the job description below. SmartHire will extract required skills,
+              experience levels, and qualifications to rank candidates.</p>
+          </div>
+
+          <div class="jd-input-area">
+            <div class="jd-dropzone" id="jd-dropzone">
+              <textarea id="job-description" class="textarea jd-textarea"
+                placeholder="Paste job description here...&#10;&#10;Example: We are looking for a Senior Python Engineer with 5+ years of experience in backend development, REST APIs, and cloud infrastructure (AWS/GCP). Strong knowledge of Django, FastAPI, and SQL databases required."></textarea>
+            </div>
+
+            <div class="jd-upload-row">
+              <div class="upload-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                <span>Upload JD file</span>
+                <input id="jd-file-input" type="file" accept=".pdf,.doc,.docx,.txt" />
+              </div>
+              <span class="helper">Supports PDF, DOCX, TXT</span>
+            </div>
+          </div>
+
+          <div class="screen-footer">
+            <div id="fairness-indicator" class="fairness-indicator hidden">
+              <span class="fairness-icon">⚖️</span>
+              <span>Bias-reduction mode enabled</span>
+            </div>
+            <button id="step1-next" class="btn-primary btn-large">
+              Continue to Candidates
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SCREEN 2: CANDIDATES ===== -->
+      <div class="screen screen-right" id="screen-2">
+        <div class="screen-container screen-container-wide">
+          <div class="screen-hero">
+            <div class="screen-badge">Step 2 of 3</div>
+            <h1 class="screen-title">Add candidate resumes</h1>
+            <p class="screen-subtitle">Paste or upload resumes for each candidate. You can add up to 20 candidates per
+              screening session.</p>
+          </div>
+
+          <!-- Inline Settings Bar -->
+          <div class="settings-bar">
+            <p class="helper">Blind mode, AI features and threshold are now controlled from the Settings sidebar.</p>
+            <button id="add-candidate" class="btn-add-candidate">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add Candidate
+            </button>
+          </div>
+
+          <!-- Candidates Grid -->
+          <div id="resumes-container" class="candidates-grid"></div>
+
+          <div id="error-box" class="error hidden"></div>
+
+          <div class="screen-footer screen-footer-split">
+            <button id="step2-back" class="btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              Back
+            </button>
+            <button id="run-button" class="btn-primary btn-large">
+              Run Screening
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SCREEN 3: RESULTS ===== -->
+      <div class="screen screen-right" id="screen-3">
+        <div class="screen-container screen-container-wide">
+
+          <!-- Results Header -->
+          <div class="results-top-bar">
+            <div class="results-top-left">
+              <button id="step3-back" class="btn-ghost-sm">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                New Screening
+              </button>
+              <button id="results-back-step2" class="btn-ghost-sm">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Back to Candidates
+              </button>
+              <div>
+                <h1 class="results-title">Screening Results</h1>
+                <div id="blind-mode-notice" class="blind-notice hidden">👁️ Bias-reduction mode active</div>
+              </div>
+            </div>
+            <div class="results-top-right">
+              <div class="metrics-bar">
+                <div class="metric-chip"><span class="metric-label">Total</span><span id="metric-total"
+                    class="metric-value">—</span></div>
+                <div class="metric-chip"><span class="metric-label">Top Score</span><span id="metric-top"
+                    class="metric-value">—</span></div>
+                <div class="metric-chip"><span class="metric-label">Average</span><span id="metric-avg"
+                    class="metric-value">—</span></div>
+              </div>
+              <div class="export-buttons">
+                <button id="export-csv-btn" class="btn-export">📊 CSV</button>
+                <button id="export-report-btn" class="btn-export">📄 Report</button>
+                <button id="view-shortlist-btn" class="btn-export">⭐ Shortlist (<span
+                    id="shortlist-count">0</span>)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results Grid -->
+          <div id="results-grid" class="results-grid"></div>
+        </div>
+      </div>
+
+      <!-- ===== SCREEN 4: SHORTLIST ===== -->
+      <div class="screen screen-right" id="screen-4">
+        <div class="screen-container screen-container-wide">
+          <div class="screen-hero">
+            <div class="screen-badge">Shortlist</div>
+            <h1 class="screen-title">Shortlisted candidates</h1>
+            <p class="screen-subtitle">Review your shortlisted candidates, contact them, or remove them from the list.</p>
+          </div>
+
+          <div id="shortlist-section" class="shortlist-section">
+            <div class="shortlist-header">
+              <h2>⭐ Shortlisted Candidates</h2>
+              <div class="shortlist-actions">
+                <button id="back-to-results-btn" class="btn-ghost-sm">← Back to Results</button>
+                <button id="contact-all-btn" class="btn-export">📨 Contact All</button>
+                <button id="download-contacts-btn" class="btn-export">📥 Download</button>
+              </div>
+            </div>
+            <div id="shortlist-grid" class="results-grid"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /screens-viewport -->
+
+  </div><!-- /app-shell -->
+
+  <!-- Settings Drawer (replaces old sidebar) -->
+  <div id="settings-drawer" class="settings-drawer">
+    <div class="settings-drawer-header">
+      <span>Settings</span>
+      <button id="settings-close" class="icon-btn">✕</button>
+    </div>
+    <div class="settings-drawer-body">
+      <div class="drawer-section">
+        <div class="drawer-section-title">Appearance</div>
+        <label class="drawer-toggle-row">
+          <div><span id="theme-toggle-label" class="toggle-label">Dark Theme</span><span class="toggle-description">Toggle light/dark
+              theme</span></div>
+          <input id="theme-toggle" type="checkbox" class="drawer-checkbox" />
+          <span class="toggle-switch"></span>
+        </label>
+      </div>
+      <div class="drawer-section">
+        <div class="drawer-section-title">AI Features</div>
+        <label class="drawer-toggle-row">
+          <div>
+            <span class="toggle-label">Blind Mode</span>
+            <span class="toggle-description">Hide names & institutions for fair screening</span>
+          </div>
+          <input id="blind-toggle" type="checkbox" class="drawer-checkbox" />
+          <span class="toggle-switch"></span>
+        </label>
+        <label class="drawer-toggle-row">
+          <div>
+            <span class="toggle-label">GenAI Features</span>
+            <span class="toggle-description">Enable AI summaries & explanations</span>
+          </div>
+          <input id="genai-toggle" type="checkbox" checked class="drawer-checkbox" />
+          <span class="toggle-switch"></span>
+        </label>
+        <div class="drawer-toggle-row">
+          <div>
+            <span class="toggle-label">Auto‑shortlist threshold</span>
+            <span class="toggle-description">Candidates at or above this score are auto‑shortlisted</span>
+          </div>
+          <div class="auto-shortlist-control">
+            <input
+              type="range"
+              id="score-threshold-slider"
+              min="0"
+              max="100"
+              value="70"
+              class="inline-slider"
+            />
+            <span id="threshold-value" class="threshold-display">70</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="settings-overlay" class="settings-overlay hidden"></div>
+
+  <!-- Resume Preview Modal -->
+  <div id="preview-overlay" class="modal-overlay hidden">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h3 id="preview-title">Resume Preview</h3>
+        <button id="preview-close" class="icon-btn">✕</button>
+      </div>
+      <div id="preview-content" class="modal-content preview-content"></div>
+    </div>
+  </div>
+
+  <!-- Contact Modal -->
+  <div id="contact-overlay" class="modal-overlay hidden">
+    <div class="modal-panel modal-panel-sm">
+      <div class="modal-header">
+        <h3>📨 Contact Candidate</h3>
+        <button id="contact-close" class="icon-btn">✕</button>
+      </div>
+      <div class="contact-content">
+        <div class="contact-options">
+          <button id="shortlist-email-btn" class="btn-contact btn-email">✉️ Shortlist Email</button>
+          <button id="rejection-email-btn" class="btn-contact btn-reject">❌ Rejection</button>
+          <button id="interview-invite-btn" class="btn-contact btn-interview">📅 Interview Invite</button>
+          <a id="whatsapp-link" class="btn-contact btn-whatsapp hidden" target="_blank">💬 WhatsApp</a>
+        </div>
+        <div class="contact-info">
+          <div class="info-item"><label>Name:</label><span id="contact-name-display">-</span></div>
+          <div class="info-item"><label>Email:</label><span id="contact-email-display">-</span></div>
+          <div class="info-item hidden" id="phone-info-item"><label>Phone:</label><span
+              id="contact-phone-display">-</span></div>
+        </div>
+        <div class="email-preview">
+          <div class="email-field"><label>To:</label><input type="text" id="contact-email" readonly /></div>
+          <div class="email-field"><label>Subject:</label><input type="text" id="contact-subject" readonly /></div>
+          <div class="email-field"><label>Message:</label><textarea id="contact-message" readonly></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>

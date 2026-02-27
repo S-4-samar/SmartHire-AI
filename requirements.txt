@@ -1,0 +1,11 @@
+Flask
+scikit-learn
+numpy
+pdfplumber
+python-docx
+sentence-transformers
+openai
+requests
+
+
+
